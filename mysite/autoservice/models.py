@@ -12,12 +12,21 @@ class Car(models.Model):
     def __str__(self):
         return f"{self.make} {self.model} ({self.license_plate})"
 
+    class Meta:
+        verbose_name = "Vehicle"
+        verbose_name_plural = "Vehicles"
+
+
 class Service(models.Model):
     name = models.CharField(verbose_name="Name", max_length=100)
     price = models.FloatField(verbose_name="Price")
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Service"
+        verbose_name_plural = "Services"
 
 
 class Order(models.Model):
@@ -27,3 +36,15 @@ class Order(models.Model):
     def __str__(self):
         return f"Order {self.date}: {self.car}"
 
+    class Meta:
+        verbose_name = "Order"
+        verbose_name_plural = "Orders"
+
+class OrderLine(models.Model):
+    order = models.ForeignKey(to="Order", on_delete=models.CASCADE)
+    service = models.ForeignKey(to="Service", on_delete=models.SET_NULL, null=True, blank=True)
+    quantity = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Order line"
+        verbose_name_plural = "Order lines"
