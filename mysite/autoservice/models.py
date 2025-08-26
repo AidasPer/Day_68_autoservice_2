@@ -33,6 +33,15 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True, verbose_name="Date", null=True, blank=True)
     car = models.ForeignKey(to="Car", on_delete=models.SET_NULL, null=True, blank=True)
 
+    ORDER_STATUS = (
+        ('c', 'Created'),
+        ('p', 'In Progress'),
+        ('f', 'Finished'),
+        ('x', 'Cancelled'),
+    )
+
+    status = models.CharField(verbose_name="Status", choices=ORDER_STATUS, max_length=1, blank=True, default='c')
+
     def total(self):
         total = 0
         for line in self.lines.all():
