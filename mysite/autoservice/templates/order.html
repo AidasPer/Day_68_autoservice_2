@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block "title" %}Car{% endblock %}
+
+{% block "content" %}
+<h1>Order Nr. {{ order.pk }}</h1>
+<ul>
+    <li><strong>Data: </strong> {{ order.date }}</li>
+    <li><strong>Car: </strong> {{ order.car }}</li>
+    <li><strong>Status: </strong> {{ order.get_status_display }}</li>
+  </ul>
+{% endblock %}
