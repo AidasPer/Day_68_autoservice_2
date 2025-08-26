@@ -30,8 +30,14 @@ class Service(models.Model):
 
 
 class Order(models.Model):
-    date = models.DateField(verbose_name="Date", null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True, verbose_name="Date", null=True, blank=True)
     car = models.ForeignKey(to="Car", on_delete=models.SET_NULL, null=True, blank=True)
+
+    def total(self):
+        total = 0
+        for line in self.lines.all():
+            total += line.service.price * line.quantity
+        return total
 
     def __str__(self):
         return f"Order {self.date}: {self.car}"
@@ -41,9 +47,16 @@ class Order(models.Model):
         verbose_name_plural = "Orders"
 
 class OrderLine(models.Model):
-    order = models.ForeignKey(to="Order", on_delete=models.CASCADE)
+    order = models.ForeignKey(to="Order", on_delete=models.CASCADE, related_name='lines')
     service = models.ForeignKey(to="Service", on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField()
+
+    def line_sum(self):
+        return self.service.price * self.quantity
+
+    def __str__(self):
+        return f"{self.service} ({self.service.price}) - {self.quantity}"
+        return f"{self.service} ({self.service.price}) - {self.quantity}"
 
     class Meta:
         verbose_name = "Order line"

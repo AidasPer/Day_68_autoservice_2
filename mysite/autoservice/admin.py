@@ -4,8 +4,20 @@ from django.contrib import admin
 from .models import Car, Service, Order, OrderLine
 
 
+class OrderLineInLine(admin.TabularInline):
+    model = OrderLine
+    extra = 0
+    fields = ['service', 'quantity', 'line_sum']
+    readonly_fields = ['line_sum']
+
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ["car", "date"]
+    list_display = ['car', 'date', 'total']
+    inlines = [OrderLineInLine]
+    readonly_fields = ['date', 'total']
+
+    fieldsets = [
+        ("General", {"fields": ['car', 'date', 'total']})
+    ]
 
 
 class CarAdmin(admin.ModelAdmin):
@@ -14,19 +26,17 @@ class CarAdmin(admin.ModelAdmin):
     search_fields = ["license_plate", "vin_code"]
 
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ["name", "price"]
+    list_display = ['pk', 'name', 'price']
+    list_editable = ['name', 'price']
+
+class OrderLineAdmin(admin.ModelAdmin):
+    list_display = ['order', 'service', 'service__price', 'quantity', 'line_sum']
 
 
 
 
-class OrderLineInLine(admin.TabularInline):
-    model = OrderLine
-    extra = 0
 
-
-
-
-admin.site.register(Car, CarAdmin)
-admin.site.register(Service, ServiceAdmin)
 admin.site.register(Order, OrderAdmin)
-admin.site.register(OrderLine)
+admin.site.register(OrderLine, OrderLineAdmin)
+admin.site.register(Service, ServiceAdmin)
+admin.site.register(Car, CarAdmin)
