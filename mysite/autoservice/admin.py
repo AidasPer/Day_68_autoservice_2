@@ -17,7 +17,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ['status']
 
     fieldsets = [
-        ("General", {"fields": ['car', 'date', 'total', 'status']})
+        ("General", {"fields": ['car', 'date', 'total', 'car_image', 'status']})
     ]
 
 

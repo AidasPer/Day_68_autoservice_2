@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block "title" %}Search result{% endblock %}
+
+{% block "content" %}
+<h3>Search by "{{ query }}" result:</h3>
+{% for car in cars %}
+<p><a href="{% url 'car' car.pk %}">{{ car.make }}</a></p>
+{% endfor %}
+{% endblock %}

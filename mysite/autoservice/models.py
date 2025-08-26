@@ -8,6 +8,7 @@ class Car(models.Model):
     license_plate = models.CharField(verbose_name="License plate", max_length=14)
     vin_code = models.CharField(verbose_name="Vin code", max_length=14)
     client_name = models.CharField(verbose_name="Client name", max_length=14)
+    car_image = models.ImageField('Car image', upload_to='car_images', null=True, blank=True)
 
     def __str__(self):
         return f"{self.make} {self.model} ({self.license_plate})"

@@ -3,6 +3,9 @@
 {% block "title" %}Car{% endblock %}
 
 {% block "content" %}
+{% if car.car_image %}
+<img class="card-img-top mb-3" style="max-width: 30%" src="{{ car.car_image.url }}" alt="...">
+{% endif %}
 <h1>{{ car.make }} {{ car.model }}</h1>
 <ul>
     <li><strong>License plate: </strong> {{ car.license_plate }}</li>
