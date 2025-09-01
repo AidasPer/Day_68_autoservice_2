@@ -3,7 +3,9 @@ from django.template.defaultfilters import title
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
+from .admin import OrderAdmin
 from .models import Service, Order, Car
 
 # Create your views here.
@@ -49,3 +51,12 @@ def search(request):
         'cars': Car.objects.filter(Q(make__icontains=query) | Q(client_name__icontains=query) | Q(model__icontains=query) | Q(license_plate__icontains=query) | Q(vin_code__icontains=query))
     }
     return render(request, template_name='search.html', context=context)
+
+class UserOrderInstanceListView(LoginRequiredMixin, generic.ListView):
+    model = Order
+    template_name = 'user_instances.html'
+    context_object_name = 'instances'
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+

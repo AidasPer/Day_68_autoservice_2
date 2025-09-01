@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block "title" %}User cars{% endblock %}
+
+{% block "content" %}
+{% for instance in instances %}
+<p>{{ instance }}</p>
+{% endfor %}
+{% endblock %}
