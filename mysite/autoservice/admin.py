@@ -7,17 +7,17 @@ from .models import Car, Service, Order, OrderLine
 class OrderLineInLine(admin.TabularInline):
     model = OrderLine
     extra = 0
-    fields = ['service', 'quantity', 'line_sum']
+    fields = ['service', 'quantity', 'line_sum', 'user']
     readonly_fields = ['line_sum']
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['car', 'date', 'total', 'status']
+    list_display = ['car', 'date', 'total', 'status', 'user']
     inlines = [OrderLineInLine]
     readonly_fields = ['date', 'total']
-    list_editable = ['status']
+    list_editable = ['status', 'user']
 
     fieldsets = [
-        ("General", {"fields": ['car', 'date', 'total', 'status']})
+        ("General", {"fields": ['car', 'date', 'total', 'status', 'user']})
     ]
 
 

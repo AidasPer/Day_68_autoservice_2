@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Car(models.Model):
@@ -33,6 +33,7 @@ class Service(models.Model):
 class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True, verbose_name="Date", null=True, blank=True)
     car = models.ForeignKey(to="Car", on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(to=User, verbose_name="User", on_delete=models.SET_NULL, null=True, blank=True)
 
     ORDER_STATUS = (
         ('c', 'Created'),
