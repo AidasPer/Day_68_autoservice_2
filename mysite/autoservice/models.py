@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 # Create your models here.
 
 class Car(models.Model):
@@ -34,6 +35,7 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True, verbose_name="Date", null=True, blank=True)
     car = models.ForeignKey(to="Car", on_delete=models.SET_NULL, null=True, blank=True)
     user = models.ForeignKey(to=User, verbose_name="User", on_delete=models.SET_NULL, null=True, blank=True)
+    car_return = models.DateField(verbose_name="Return date", null=True, blank=True)
 
     ORDER_STATUS = (
         ('c', 'Created'),
@@ -43,6 +45,9 @@ class Order(models.Model):
     )
 
     status = models.CharField(verbose_name="Status", choices=ORDER_STATUS, max_length=1, blank=True, default='c')
+
+    def is_returned(self):
+        return self.car_return and self.car_return < timezone.now().date()
 
     def total(self):
         total = 0

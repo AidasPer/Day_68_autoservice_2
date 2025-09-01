@@ -4,6 +4,6 @@
 
 {% block "content" %}
 {% for instance in instances %}
-<p>{{ instance }}</p>
+<p>{{ instance }} - <span class="{% if instance.is_returned %}text-danger{% endif %}">{{ instance.car_return }}</span></p>
 {% endfor %}
 {% endblock %}
