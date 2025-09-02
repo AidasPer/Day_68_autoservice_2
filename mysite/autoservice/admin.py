@@ -1,13 +1,13 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Car, Service, Order, OrderLine
+from .models import Car, Service, Order, OrderLine, OrderReview
 
 
 class OrderLineInLine(admin.TabularInline):
     model = OrderLine
     extra = 0
-    fields = ['service', 'quantity', 'line_sum', 'user']
+    fields = ['service', 'quantity', 'line_sum']
     readonly_fields = ['line_sum']
 
 class OrderAdmin(admin.ModelAdmin):
@@ -17,7 +17,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ['status', 'user', 'car_return']
 
     fieldsets = [
-        ("General", {"fields": ['car', 'date', 'total', 'status', 'user', 'car_return']})
+        ("General", {"fields": ['car', 'date', 'total', 'status', 'car_return', 'user', 'description']})
     ]
 
 
@@ -41,3 +41,4 @@ admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderLine, OrderLineAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Car, CarAdmin)
+admin.site.register(OrderReview)

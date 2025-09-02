@@ -34,4 +34,14 @@
       </tr>
     </tbody>
   </table>
+<h3>Description</h3>
+<p>{{ order.description|safe }}</p>
+<h3>Comments</h3>
+{% for review in order.reviews.all %}
+<hr>
+<small>{{ review.author }}, {{ review.date_created }}</small>
+<p>{{ review.content }}</p>
+{% empty %}
+<p>No comments</p>
+{% endfor %}
 {% endblock %}

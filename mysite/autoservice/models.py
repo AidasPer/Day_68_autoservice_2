@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from tinymce.models import HTMLField
 # Create your models here.
 
 class Car(models.Model):
@@ -36,6 +37,7 @@ class Order(models.Model):
     car = models.ForeignKey(to="Car", on_delete=models.SET_NULL, null=True, blank=True)
     user = models.ForeignKey(to=User, verbose_name="User", on_delete=models.SET_NULL, null=True, blank=True)
     car_return = models.DateField(verbose_name="Return date", null=True, blank=True)
+    description = HTMLField(verbose_name="Description", max_length=2000, null=True, blank=True)
 
     ORDER_STATUS = (
         ('c', 'Created'),
@@ -72,8 +74,23 @@ class OrderLine(models.Model):
 
     def __str__(self):
         return f"{self.service} ({self.service.price}) - {self.quantity}"
-        return f"{self.service} ({self.service.price}) - {self.quantity}"
+
 
     class Meta:
         verbose_name = "Order line"
         verbose_name_plural = "Order lines"
+
+class OrderReview(models.Model):
+    order = models.ForeignKey(to="order",verbose_name="order", on_delete=models.CASCADE, related_name='reviews')
+    author = models.ForeignKey(to=User,verbose_name="Author", on_delete=models.SET_NULL, null=True, blank=True)
+    content = models.TextField(verbose_name="Content")
+    date_created = models.DateTimeField(verbose_name="Date Created", auto_now_add=True)
+
+
+    def __str__(self):
+        return f"{self.author} - {self.order}({self.date_created})"
+
+    class Meta:
+        ordering = ['-date_created']
+        verbose_name = "Order comment"
+        verbose_name_plural = "Order comments"
