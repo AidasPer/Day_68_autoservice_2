@@ -7,11 +7,15 @@
     <div class="row justify-content-center">
         <div class="col-md">
             <h2 class="mb-4 text-center">Profile</h2>
+            {% if user.photo %}
+            <img class="rounded-circle account-img" style="width: 300px" src="{{ user.photo.url }}">
+            {% endif %}
             <p><strong>Username: </strong>{{ user.username }}</p>
             <p><strong>First Name: </strong>{{ user.first_name }}</p>
             <p><strong>Last Name: </strong>{{ user.last_name }}</p>
             <p><strong>Email: </strong>{{ user.email }}</p>
-            <form method="post">
+            <p><strong>Location: </strong>{{ user.location }}</p>
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% load crispy_forms_tags %}
                 {{ form | crispy }}

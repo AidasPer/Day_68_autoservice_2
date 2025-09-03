@@ -7,8 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.urls import reverse_lazy
-from .models import Service, Order, Car
-from .forms import OrderReviewForm
+from .models import Service, Order, Car, CustomUser
+from .forms import OrderReviewForm, CustomUserCreationForm
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -86,18 +86,17 @@ class UserOrderInstanceListView(LoginRequiredMixin, generic.ListView):
         return Order.objects.filter(user=self.request.user)
 
 class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm
     template_name = "signup.html"
     success_url = reverse_lazy('index')
 
-# @login_required()
-# def profile(request):
-#     return render(request, template_name="profile.html")
+@login_required()
+def profile(request):
+    return render(request, template_name="profile.html")
 
 class ProfileUpdateView(LoginRequiredMixin, generic.UpdateView):
-    # form_class = UserChangeForm
-    model = User
-    fields = ['first_name', 'last_name', 'email']
+    model = CustomUser
+    fields = ['first_name', 'last_name', 'email', 'photo', 'location']
     template_name = "profile.html"
     success_url = reverse_lazy('profile')
 

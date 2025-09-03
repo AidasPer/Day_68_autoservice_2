@@ -1,8 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser, UserManager
 from django.utils import timezone
 from tinymce.models import HTMLField
 # Create your models here.
+
+
+class CustomUser(AbstractUser):
+    photo = models.ImageField(verbose_name="Photo", upload_to="profile_pics" , null=True, blank=True)
+    location = models.TextField(verbose_name="Location", null=True, blank=True)
+
+    objects = UserManager()
+
 
 class Car(models.Model):
     make = models.CharField(verbose_name="Make", max_length=14)
@@ -35,7 +43,7 @@ class Service(models.Model):
 class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True, verbose_name="Date", null=True, blank=True)
     car = models.ForeignKey(to="Car", on_delete=models.SET_NULL, null=True, blank=True)
-    user = models.ForeignKey(to=User, verbose_name="User", on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(to="autoservice.CustomUser", verbose_name="User", on_delete=models.SET_NULL, null=True, blank=True)
     car_return = models.DateField(verbose_name="Return date", null=True, blank=True)
     description = HTMLField(verbose_name="Description", max_length=2000, null=True, blank=True)
 
@@ -82,7 +90,7 @@ class OrderLine(models.Model):
 
 class OrderReview(models.Model):
     order = models.ForeignKey(to="order",verbose_name="order", on_delete=models.CASCADE, related_name='reviews')
-    author = models.ForeignKey(to=User,verbose_name="Author", on_delete=models.SET_NULL, null=True, blank=True)
+    author = models.ForeignKey(to="autoservice.CustomUser",verbose_name="Author", on_delete=models.SET_NULL, null=True, blank=True)
     content = models.TextField(verbose_name="Content")
     date_created = models.DateTimeField(verbose_name="Date Created", auto_now_add=True)
 
