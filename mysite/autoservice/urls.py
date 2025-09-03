@@ -10,4 +10,5 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('userinstance/', views.UserOrderInstanceListView.as_view(), name='user_instance'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('profile/', views.profile, name='profile'),
 ]
