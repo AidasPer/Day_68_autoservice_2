@@ -5,10 +5,11 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.urls import reverse_lazy
 from .models import Service, Order, Car
 from .forms import OrderReviewForm
+from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
@@ -89,6 +90,17 @@ class SignUpView(generic.CreateView):
     template_name = "signup.html"
     success_url = reverse_lazy('index')
 
-@login_required()
-def profile(request):
-    return render(request, template_name="profile.html")
+# @login_required()
+# def profile(request):
+#     return render(request, template_name="profile.html")
+
+class ProfileUpdateView(LoginRequiredMixin, generic.UpdateView):
+    # form_class = UserChangeForm
+    model = User
+    fields = ['first_name', 'last_name', 'email']
+    template_name = "profile.html"
+    success_url = reverse_lazy('profile')
+
+
+    def get_object(self, queryset=None):
+        return self.request.user
