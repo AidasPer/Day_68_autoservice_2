@@ -88,7 +88,7 @@ class UserOrderInstanceListView(LoginRequiredMixin, generic.ListView):
 class SignUpView(generic.CreateView):
     form_class = CustomUserCreationForm
     template_name = "signup.html"
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('login')
 
 @login_required()
 def profile(request):
