@@ -115,3 +115,14 @@ class OrderInstanceCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.C
     def test_func(self):
         return self.request.user.is_staff
 
+
+class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = Order
+    template_name = 'instance_form.html'
+    form_class = OrderCreateUpdateForm
+
+    def get_success_url(self):
+        return reverse('orders', kwargs={'pk': self.get_object().pk})
+
+    def test_func(self):
+        return self.request.user.is_staff

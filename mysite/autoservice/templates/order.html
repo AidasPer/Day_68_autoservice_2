@@ -34,6 +34,9 @@
       </tr>
     </tbody>
   </table>
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'instance_update' order.pk %}">Edit</a>
+</div>
 <h3>Description</h3>
 <p>{{ order.description|safe }}</p>
 <h3>Comments</h3>
