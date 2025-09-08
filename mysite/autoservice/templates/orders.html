@@ -3,6 +3,7 @@
 {% block "title" %}Orders{% endblock %}
 
 {% block "content" %}
+<a class="btn btn-secondary mb-2" href="{% url 'instances_create' %}">New Order</a>
 <h1>Orders:</h1>
 {% for order in orders %}
 <p><a href="{% url 'order' order.pk %}">{{ order }}</a></p>

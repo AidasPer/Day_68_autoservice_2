@@ -11,4 +11,5 @@ urlpatterns = [
     path('userinstance/', views.UserOrderInstanceListView.as_view(), name='user_instance'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
     path('profile/', views.ProfileUpdateView.as_view(), name='profile'),
+    path('instances/create', views.OrderInstanceCreateView.as_view(), name='instances_create'),
 ]

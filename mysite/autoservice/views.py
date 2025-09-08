@@ -3,7 +3,7 @@ from django.shortcuts import render, reverse
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.urls import reverse_lazy
@@ -103,3 +103,14 @@ class ProfileUpdateView(LoginRequiredMixin, generic.UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class OrderInstanceCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
+    model = Order
+    template_name = 'instance_form.html'
+    fields = ['car', 'car_return', 'user', 'status']
+    success_url = reverse_lazy('instances')
+
+    def test_func(self):
+        return self.request.user.is_staff
+

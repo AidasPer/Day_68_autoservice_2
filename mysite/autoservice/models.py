@@ -83,6 +83,7 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Order"
         verbose_name_plural = "Orders"
+        ordering = ['-pk']
 
 class OrderLine(models.Model):
     order = models.ForeignKey(to="Order", on_delete=models.CASCADE, related_name='lines')
