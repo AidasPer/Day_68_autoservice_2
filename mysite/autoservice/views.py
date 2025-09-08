@@ -8,7 +8,7 @@ from django.views.generic.edit import FormMixin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.urls import reverse_lazy
 from .models import Service, Order, Car, CustomUser
-from .forms import OrderReviewForm, CustomUserCreationForm
+from .forms import OrderReviewForm, CustomUserCreationForm, OrderCreateUpdateForm
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -108,8 +108,9 @@ class ProfileUpdateView(LoginRequiredMixin, generic.UpdateView):
 class OrderInstanceCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = Order
     template_name = 'instance_form.html'
-    fields = ['car', 'car_return', 'user', 'status']
-    success_url = reverse_lazy('instances')
+    # fields = ['car', 'car_return', 'user', 'status']
+    form_class = OrderCreateUpdateForm
+    success_url = reverse_lazy('orders')
 
     def test_func(self):
         return self.request.user.is_staff
