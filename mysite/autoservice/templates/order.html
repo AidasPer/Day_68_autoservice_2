@@ -36,6 +36,7 @@
   </table>
 <div>
     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'instance_update' order.pk %}">Edit</a>
+    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'instance_delete' order.pk %}">Delete</a>
 </div>
 <h3>Description</h3>
 <p>{{ order.description|safe }}</p>
